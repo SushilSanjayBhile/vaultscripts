@@ -109,8 +109,8 @@ vault kv put drio-controller/ops/opsuser password=$(openssl rand -hex 12)
 vault kv delete -mount drio-controller/ops opsuser
 vault kv put drio-controller/ops/opsuser password=$(openssl rand -hex 12)
 
-
 echo "Attaching policy"
+sudo cp drio-controller-policy.json vault/policies/
 vault policy write drio-controller-policy ${VAULT_POLICIES}/drio-controller-policy.json
 
 echo "Enabling approle"
@@ -130,6 +130,8 @@ echo "approle_secret_id_info: ${approle_secret_id_info}"
 approle_secret_id=$(echo ${approle_secret_id_info} | jq -r ".data.secret_id")
 echo "approle_secret_id: ${approle_secret_id}"
 
+# Write the environment variables to the file
 echo "DRIO_VAULT_ROLE_ID=${approle_id}" | sudo tee ${VAULT_TOKENS}/drio-controller/drio-controller-role.env > /dev/null
-echo "DRIO_VAULT_SECRET_ID=${approle_secret_id}" | sudo tee ${VAULT_TOKENS}/drio-controller/drio-controller-role.env > /dev/null
+echo "DRIO_VAULT_SECRET_ID=${approle_secret_id}" | sudo tee -a ${VAULT_TOKENS}/drio-controller/drio-controller-role.env > /dev/null
+
 echo "Vault successfully initialized"
