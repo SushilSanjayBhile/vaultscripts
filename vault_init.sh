@@ -8,7 +8,7 @@ SECRET_PREFIX="VaultSecret-sg-"
 # Check if directory exists
 if [ ! -d "$VAULT_POLICIES" ]; then
     echo "Directory $VAULT_POLICIES does not exist. Creating it..."
-    mkdir -p "$VAULT_POLICIES"
+    sudo mkdir -p "$VAULT_POLICIES"
     echo "Directory $VAULT_POLICIES created."
 else
     echo "Directory $VAULT_POLICIES already exists."
@@ -17,7 +17,7 @@ fi
 # Check if directory exists
 if [ ! -d "$VAULT_TOKENS" ]; then
     echo "Directory $VAULT_TOKENS does not exist. Creating it..."
-    mkdir -p "$VAULT_TOKENS"
+    sudo mkdir -p "$VAULT_TOKENS"
     echo "Directory $VAULT_TOKENS created."
 else
     echo "Directory $VAULT_TOKENS already exists."
@@ -27,7 +27,7 @@ directory=$VAULT_TOKENS/drio-controller
 # Check if directory exists
 if [ ! -d "$directory" ]; then
     echo "Directory $directory does not exist. Creating it..."
-    mkdir -p "$directory"
+    sudo mkdir -p "$directory"
     echo "Directory $directory created."
 else
     echo "Directory $directory already exists."
@@ -130,6 +130,6 @@ echo "approle_secret_id_info: ${approle_secret_id_info}"
 approle_secret_id=$(echo ${approle_secret_id_info} | jq -r ".data.secret_id")
 echo "approle_secret_id: ${approle_secret_id}"
 
-echo "DRIO_VAULT_ROLE_ID=${approle_id}" >${VAULT_TOKENS}/drio-controller/drio-controller-role.env
-echo "DRIO_VAULT_SECRET_ID=${approle_secret_id}" >>${VAULT_TOKENS}/drio-controller/drio-controller-role.env
+echo "DRIO_VAULT_ROLE_ID=${approle_id}" | sudo tee ${VAULT_TOKENS}/drio-controller/drio-controller-role.env > /dev/null
+echo "DRIO_VAULT_SECRET_ID=${approle_secret_id}" | sudo tee ${VAULT_TOKENS}/drio-controller/drio-controller-role.env > /dev/null
 echo "Vault successfully initialized"
