@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x
 
 VAULT_POLICIES=vault/policies
 VAULT_TOKENS=vault/tokens
