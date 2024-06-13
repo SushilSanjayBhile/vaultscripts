@@ -37,7 +37,8 @@ fi
 # Check if VAULT_ADDR environment variable is set
 if [[ -z "${VAULT_ADDR}" ]]; then
   echo "VAULT_ADDR environment variable is not set."
-  exit 1
+  export VAULT_ADDR="http://127.0.0.1:8200"
+  echo "VAULT_ADDR is set to ${VAULT_ADDR}."
 else
   echo "VAULT_ADDR is set to ${VAULT_ADDR}."
 fi
